@@ -4,8 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CrmSystemApplication {
+public class SpringappApplication {
     public static void main(String[] args) {
-        SpringApplication.run(CrmSystemApplication.class, args);
+        SpringApplication.run(SpringappApplication.class, args);
     }
 }
