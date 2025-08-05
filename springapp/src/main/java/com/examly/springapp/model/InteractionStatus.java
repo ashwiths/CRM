@@ -1,5 +1,5 @@
 package com.examly.springapp.model;
 
-public class InteractionStatus {
-    
+public enum InteractionStatus {
+    PENDING, IN_PROGRESS, COMPLETED
 }

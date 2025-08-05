@@ -1,10 +1,8 @@
 package com.examly.springapp.model;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;  // Correct import
-import lombok.Data;
+import java.time.LocalDateTime;
 
-@Data
 @Entity
 @Table(name = "interactions")
 public class Interaction {
@@ -13,8 +11,17 @@ public class Interaction {
     private Long id;
     
     private Long leadId;
-    private LocalDateTime date;  // This should now work
+    private LocalDateTime date;
     private String notes;
-    
-    // Constructors, getters and setters are handled by @Data
+
+    // Manually add getters and setters if Lombok still doesn't work
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    // Add remaining getters and setters...
 }

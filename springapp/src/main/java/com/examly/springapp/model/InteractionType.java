@@ -1,5 +1,5 @@
 package com.examly.springapp.model;
 
-public class InteractionType {
-    
+public enum InteractionType {
+    CALL, EMAIL, CHAT, MEETING
 }
