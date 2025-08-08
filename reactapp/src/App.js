@@ -1,20 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
+import CustomerList from './components/CustomerList';
+import CustomerRegistrationForm from './components/CustomerRegistrationForm';
+import CustomerDetails from './components/CustomerDetails';
+import './App.css';
 
 function App() {
+  const [selectedCustomerId, setSelectedCustomerId] = useState(null);
+  const [refreshList, setRefreshList] = useState(false);
+
   return (
-    <div style={styles.container}>
-      <h1>Welcome to My CRM Dashboard</h1>
-      <p>This is a sample React component.</p>
+    <div className="app">
+      <h1>CRM System</h1>
+      {!selectedCustomerId ? (
+        <>
+          <CustomerRegistrationForm onCreate={() => setRefreshList(!refreshList)} />
+          <hr />
+          <CustomerList
+            key={refreshList}
+            onSelect={setSelectedCustomerId}
+          />
+        </>
+      ) : (
+        <CustomerDetails
+          customerId={selectedCustomerId}
+          onBack={() => setSelectedCustomerId(null)}
+        />
+      )}
     </div>
   );
 }
-
-const styles = {
-  container: {
-    padding: '2rem',
-    fontFamily: 'Arial',
-    textAlign: 'center',
-  },
-};
 
 export default App;

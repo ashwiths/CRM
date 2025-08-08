@@ -8,6 +8,7 @@ import java.util.List;
 
 @Service
 public class InteractionService {
+
     private final InteractionRepository interactionRepository;
 
     public InteractionService(InteractionRepository interactionRepository) {
@@ -17,6 +18,21 @@ public class InteractionService {
     public List<Interaction> getAllInteractions() {
         return interactionRepository.findAll();
     }
-    
-    // Add other service methods
+
+    public Interaction createInteraction(Interaction interaction) {
+        return interactionRepository.save(interaction);
+    }
+
+    public Interaction updateInteraction(Long id, Interaction interactionDetails) {
+        return interactionRepository.findById(id).map(interaction -> {
+            interaction.setType(interactionDetails.getType());
+            interaction.setDate(interactionDetails.getDate());
+            interaction.setNotes(interactionDetails.getNotes());
+            return interactionRepository.save(interaction);
+        }).orElseThrow(() -> new RuntimeException("Interaction not found with id " + id));
+    }
+
+    public void deleteInteraction(Long id) {
+        interactionRepository.deleteById(id);
+    }
 }

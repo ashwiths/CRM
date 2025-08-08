@@ -1,0 +1,105 @@
+.customer-details {
+  margin: 2rem auto;
+  max-width: 900px;
+  background: #ffffff;
+  border: 1.5px solid #e0e7ef;
+  padding: 2.2rem 3rem;
+  border-radius: 18px;
+  box-shadow: 0 7px 28px #7bb7fd0a, 0 2px 10px #e1e6ec32;
+}
+
+.customer-details h2,
+.customer-details h3,
+.customer-details h4 {
+  color: #2680e7;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.customer-details > div {
+  background-color: #f2f7fd;
+  border-radius: 8px;
+  padding: 1.2rem 1.7rem 1.1rem 1.7rem;
+  margin-bottom: 1rem;
+  line-height: 1.75;
+  box-shadow: 0 1px 4px #e3eefa29;
+}
+
+.customer-details table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-bottom: 1.2rem;
+  font-size: 1.05rem;
+}
+
+.customer-details th,
+.customer-details td {
+  padding: 0.9rem 1.25rem;
+  border-bottom: 1px solid #e8eef6;
+}
+
+.customer-details th {
+  background: #f6fafd;
+  color: #395b8b;
+  font-weight: 600;
+}
+
+.customer-details tr:hover > td {
+  background: #eaf4ff;
+  transition: background 0.2s;
+}
+
+/* AddInteractionForm enhancements inside CustomerDetails */
+.customer-details form label {
+  display: block;
+  margin-bottom: 0.55rem;
+  font-weight: 500;
+  color: #194e7e;
+}
+
+.customer-details input,
+.customer-details select,
+.customer-details textarea {
+  width: 100%;
+  padding: 0.6rem;
+  margin-top: 0.08rem;
+  margin-bottom: 0.43rem;
+  border: 1.3px solid #c5d7ef;
+  border-radius: 6px;
+  font-size: 1.05rem;
+  background: #fafdff;
+  transition: border-color 0.17s;
+}
+
+.customer-details input:focus,
+.customer-details select:focus,
+.customer-details textarea:focus {
+  border-color: #2a82fb;
+  background: #f3faff;
+}
+
+.customer-details button[type="submit"] {
+  padding: 0.6rem 1.3rem;
+  background: linear-gradient(90deg,#2680e7 80%,#a1d2ff 100%);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 1.03rem;
+  margin-top: 0.5rem;
+  cursor: pointer;
+  transition: background 0.22s, transform 0.13s;
+}
+
+.customer-details button[type="submit"]:hover {
+  background: linear-gradient(90deg,#2159a0 85%, #79aced 100%);
+  transform: scale(1.03);
+}
+
+.customer-details .error {
+  color: #e74c3c;
+  font-size: 0.97rem;
+  margin-top: 2px;
+  display: block;
+}

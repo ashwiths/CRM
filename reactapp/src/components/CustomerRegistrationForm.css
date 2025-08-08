@@ -1,0 +1,83 @@
+.customer-registration-form {
+  background: #f7faff;
+  padding: 2rem 2.7rem 1.3rem 2.7rem;
+  max-width: 500px;
+  margin: 2rem auto;
+  border-radius: 18px;
+  box-shadow: 0 4px 32px rgba(62,123,220,0.09);
+  border: 1.5px solid #eaf3fa;
+}
+
+.customer-registration-form h2 {
+  text-align: left;
+  color: #25559a;
+  letter-spacing: 0.04rem;
+  margin-bottom: 1.23rem;
+}
+
+.customer-registration-form form label {
+  display: block;
+  margin-bottom: 0.7rem;
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.customer-registration-form input,
+.customer-registration-form select {
+  width: 100%;
+  padding: 0.62rem;
+  margin-top: 0.18rem;
+  margin-bottom: 0.55rem;
+  border: 1.5px solid #c5d7ef;
+  border-radius: 7px;
+  font-size: 1.05rem;
+  outline: none;
+  transition: border-color 0.2s;
+  background: #fafdff;
+}
+
+.customer-registration-form input:focus,
+.customer-registration-form select:focus {
+  border-color: #4594fb;
+  background: #f3faff;
+}
+
+.customer-registration-form button {
+  margin-right: 0.7rem;
+  margin-top: 8px;
+  padding: 0.65rem 1.47rem;
+  background: linear-gradient(90deg,#2468e5 70%,#79aced 100%);
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  font-size: 1.07rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(44,104,229,0.10);
+  transition: background 0.2s, transform 0.15s;
+}
+
+.customer-registration-form button[type="button"] {
+  background: #e0e7ef;
+  color: #1d2b41;
+}
+
+.customer-registration-form button:hover {
+  background: linear-gradient(90deg,#154190 65%, #48a1ff 100%);
+  transform: translateY(-2px) scale(1.025);
+}
+
+.customer-registration-form .error {
+  color: #e74c3c;
+  font-size: 0.97rem;
+  margin-top: 2px;
+  display: block;
+}
+
+.customer-registration-form .success {
+  color: #23a66f;
+  font-weight: 600;
+  margin-bottom: 0.66rem;
+}
+ 

@@ -8,7 +8,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/interactions")
+@CrossOrigin(origins = "*") // allow frontend access
 public class InteractionController {
+
     private final InteractionService interactionService;
 
     public InteractionController(InteractionService interactionService) {
@@ -19,6 +21,19 @@ public class InteractionController {
     public List<Interaction> getAllInteractions() {
         return interactionService.getAllInteractions();
     }
-    
-    // Add other controller methods
+
+    @PostMapping
+    public Interaction createInteraction(@RequestBody Interaction interaction) {
+        return interactionService.createInteraction(interaction);
+    }
+
+    @PutMapping("/{id}")
+    public Interaction updateInteraction(@PathVariable Long id, @RequestBody Interaction interactionDetails) {
+        return interactionService.updateInteraction(id, interactionDetails);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteInteraction(@PathVariable Long id) {
+        interactionService.deleteInteraction(id);
+    }
 }

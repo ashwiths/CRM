@@ -1,48 +1,48 @@
 package com.examly.springapp.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Customer {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private String firstName;
+    private String lastName;
     private String email;
+    private String phoneNumber;
 
-    // Constructors
+    @Enumerated(EnumType.STRING)
+    private CustomerType customerType;
+
     public Customer() {}
 
-    public Customer(String name, String email) {
-        this.name = name;
+    public Customer(String firstName, String lastName, String email, String phoneNumber, CustomerType customerType) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.customerType = customerType;
     }
 
     // Getters and setters
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getFirstName() { return firstName; }
+    public void setFirstName(String firstName) { this.firstName = firstName; }
 
-    public String getName() {
-        return name;
-    }
+    public String getLastName() { return lastName; }
+    public void setLastName(String lastName) { this.lastName = lastName; }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
-    public String getEmail() {
-        return email;
-    }
+    public String getPhoneNumber() { return phoneNumber; }
+    public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public CustomerType getCustomerType() { return customerType; }
+    public void setCustomerType(CustomerType customerType) { this.customerType = customerType; }
 }
