@@ -1,0 +1,129 @@
+.home-corner-bg {
+  min-height: 100vh;
+  width: 100vw;
+  position: relative;
+  background: linear-gradient(135deg, #e3ecfc 55%, #c6e2ff 100%);
+  overflow: hidden;
+}
+
+/* --- Home Card at Top-Left Corner --- */
+.home-card {
+  position: absolute;
+  left: 2vw;
+  top: 3vh;
+  background: rgba(255,255,255,0.93); /* Slightly more airy */
+  border-radius: 28px;                 /* More softness */
+  padding: 3.7rem 2.1rem 2.8rem;       /* Extra padding for "breath" */
+  max-width: 470px;
+  min-width: 290px;
+  text-align: center;
+  box-shadow: 0 16px 60px #b5cdfb36;  /* Deeper/larger shadow */
+  animation: popIn 0.55s cubic-bezier(.46,1.66,.66,1.11);
+  z-index: 2;
+}
+
+/* --- Card Pop Animation --- */
+@keyframes popIn {
+   0%   { transform: scale(.96) translateY(36px); opacity:.09; }
+   50%  { transform: scale(1.08) translateY(-12px); }
+   100% { transform: scale(1) translateY(0); opacity:1; }
+}
+
+/* --- Lock Icon / Avatar --- */
+.home-lock {
+  font-size: 2.8rem; /* Slightly bigger */
+  background: linear-gradient(90deg, #4181e2 70%, #86b6ff 97%);
+  border-radius: 2em;
+  width: 62px; height: 62px; line-height: 62px;
+  margin: 0 auto 1.3rem auto;
+  box-shadow: 0 2px 12px #346ae224;
+  animation: bounceIn .9s cubic-bezier(.45, 1.46, .42, .85);
+}
+
+/* --- Lock Animation --- */
+@keyframes bounceIn {
+  0%   { transform: scale(.85);}
+  60%  { transform: scale(1.14);}
+  100% { transform: scale(1);}
+}
+
+/* --- Home Page Title/Captions --- */
+.home-title {
+  font-size: 2.35rem;
+  color: #23427a;
+  font-weight: bold;
+  letter-spacing: .03em;
+  margin-bottom: 0.45rem;
+}
+.home-caption {
+  color: #5881a7;
+  font-size: 1.15rem;
+  margin-bottom: 2.2rem;
+  letter-spacing: 0.01em;
+}
+
+/* --- Feature Cards --- */
+.home-feature-cards {
+  display: flex;
+  gap: 1.7rem;                  /* More spacing between feature cards */
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.feature-card {
+  flex: 1 1 175px;
+  min-width: 170px;
+  max-width: 240px;
+  background: linear-gradient(120deg, #f4f8ff 75%, #eaf2fe 110%);
+  border-radius: 18px;             /* More rounded */
+  box-shadow: 0 6px 16px #c5e2ff21; /* Softer shadow */
+  padding: 1.45rem 1.1rem 1.2rem 1.1rem; /* More padding */
+  margin-bottom: 1.3rem;           /* More air between rows */
+  transition: transform .27s, box-shadow .23s;
+}
+
+.feature-card h4 {
+  color: #256def;
+  margin: 0.93em 0 0.32em;
+}
+.feature-card .icon {
+  font-size: 1.6rem;
+  margin-bottom: .19rem;
+}
+.feature-card:hover {
+  transform: translateY(-9px) scale(1.035) rotate(-1deg);
+  box-shadow: 0 12px 34px #8fc3fd26;
+}
+
+/* --- Animations for Feature Cards --- */
+.slide-left  { animation: slideLeft .74s; }
+.slide-up    { animation: slideUp .95s; }
+.slide-right { animation: slideRight .85s; }
+
+@keyframes slideLeft {
+  0% { opacity:0; transform: translateX(-70px) scale(.92);}
+  100%{ opacity:1; transform: none;}
+}
+@keyframes slideUp {
+  0% { opacity:0; transform: translateY(55px) scale(.91);}
+  100%{ opacity:1; transform: none;}
+}
+@keyframes slideRight {
+  0% { opacity:0; transform: translateX(70px) scale(.92);}
+  100%{ opacity:1; transform: none;}
+}
+
+/* --- Mobile/Responsive: Recenter the Card --- */
+@media (max-width: 850px) {
+  .home-card {
+    position: static;
+    margin: 2.8rem auto;
+    max-width: 97vw;
+    left: auto; right: auto; top: auto; bottom: auto;
+    padding: 2.2rem 1.1rem 2rem;
+    border-radius: 22px;
+  }
+  .home-feature-cards {
+    gap: 1.25rem;
+  }
+}

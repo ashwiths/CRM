@@ -1,0 +1,324 @@
+/* Root container styles and fade-in animation */
+.dashboard-root {
+  padding: 32px 10vw 26px 10vw;
+  animation: fadeInMoveUp 0.7s cubic-bezier(.5,.8,.5,1) both;
+  min-height: 100vh;
+  background: #f7f9fc;
+}
+
+@keyframes fadeInMoveUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Title styling */
+.dashboard-title {
+  font-size: 2.4rem;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  margin-bottom: 28px;
+  color: #22449c;
+}
+
+/* Layout */
+.db-top-row {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+
+/* Main card styles (conversion & timeline cards) */
+.db-card {
+  background: #fff;
+  border-radius: 13px;
+  box-shadow: 0 2px 18px rgba(40,60,180,0.08);
+  padding: 22px 24px 18px 24px;
+  flex: 1 1 330px;
+  min-width: 260px;
+  opacity: 0;
+  transform: scale(0.96);
+  animation: cardPop .8s cubic-bezier(.31,.95,.62,1.06) forwards;
+  animation-delay: 0.18s;
+}
+
+@keyframes cardPop {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Card contents */
+.db-card h3 {
+  font-size: 1.22em;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.db-muted {
+  color: #767676;
+  font-size: 0.98rem;
+  font-weight: 400;
+  margin-bottom: 9px;
+  display: block;
+}
+
+.bar-chart {
+  margin-top: 10px;
+  margin-bottom: 2px;
+}
+/* Conversion rates rows */
+.bar-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  gap: 13px;
+}
+.country {
+  width: 56px;
+  min-width: 56px;
+  font-weight: 500;
+  color: #22489c;
+}
+
+.bars {
+  display: flex;
+  gap: 7px;
+}
+
+.bar {
+  height: 24px;
+  min-width: 32px;
+  border-radius: 13px;
+  text-align: left;
+  font-size: 1em;
+  font-weight: 500;
+  color: #fff;
+  padding-left: 12px;
+  padding-right: 14px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  margin-right: 4px;
+  position: relative;
+  opacity: 0;
+  animation: fadeBar 0.6s ease forwards;
+}
+@keyframes fadeBar {
+  to { opacity: 1; }
+}
+
+/* Stagger bar appearance */
+.bar-current { animation-delay: .15s; }
+.bar-prev { animation-delay: .27s; }
+
+.bar-current {
+  background: #3575e8;
+  opacity: 0.93;
+}
+.bar-prev {
+  background: #bbe0ff;
+  color: #3575e8 !important;
+  opacity: 1;
+}
+
+/* Timeline styles */
+.db-timeline ul {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+.timeline-list {
+  margin-top: 14px;
+}
+.timeline-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 15px;
+  opacity: 0;
+  transform: translateY(26px);
+  animation: fadeSlideIn 0.6s cubic-bezier(.35,1,.39,.9) forwards;
+}
+.timeline-item:nth-child(1) { animation-delay: .16s; }
+.timeline-item:nth-child(2) { animation-delay: .32s; }
+.timeline-item:nth-child(3) { animation-delay: .48s; }
+.timeline-item:nth-child(4) { animation-delay: .64s; }
+.timeline-item:nth-child(5) { animation-delay: .80s; }
+
+@keyframes fadeSlideIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.timeline-dot {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  margin-right: 11px;
+  margin-top: 5px;
+  flex-shrink: 0;
+  box-shadow: 0 1px 5px #eee;
+}
+
+.timeline-label {
+  font-weight: 500;
+  margin-right: 13px;
+  font-size: 1.07em;
+  color: #33406e;
+}
+.timeline-date {
+  color: #959595;
+  font-size: 0.95em;
+  margin-left: auto;
+  white-space: nowrap;
+  font-weight: 400;
+}
+
+/* Middle card row (metrics: sales, users etc.) */
+.db-bottom-row {
+  margin-top: 18px;
+}
+
+.db-card-group {
+  display: flex;
+  gap: 23px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+
+/* Metric cards: animated pop-in and color border */
+.db-small-card {
+  background: linear-gradient(90deg, #eef6ff 62%, #f9f1fd 100%);
+  border-radius: 15px;
+  min-width: 180px;
+  flex: 1 1 190px;
+  padding: 18px 16px 14px 18px;
+  border: 2.5px solid #bbe0ff;
+  box-shadow: 0 4px 12px #eee1;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  align-items: flex-start;
+  opacity: 0;
+  transform: scale(.96);
+  animation: cardPop .7s cubic-bezier(.21,.92,.44,1.13) forwards;
+}
+.db-small-card:nth-child(1) { animation-delay: .23s; }
+.db-small-card:nth-child(2) { animation-delay: .32s; }
+.db-small-card:nth-child(3) { animation-delay: .41s; }
+.db-small-card:nth-child(4) { animation-delay: .50s; }
+
+.db-icon {
+  font-size: 1.57em;
+}
+.db-card-label {
+  font-weight: 500;
+  color: #355;
+  margin-bottom: 3px;
+}
+.db-card-value {
+  font-size: 2em;
+  font-weight: 700;
+  color: #272756;
+}
+.db-card-trend {
+  font-size: 1em;
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+/* Bottom row: charts (radar, bar) */
+.db-below-row {
+  display: flex;
+  gap: 28px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
+/* Chart cards */
+.db-radar-card,
+.db-visits-card {
+  flex: 1 1 430px;
+  min-width: 320px;
+  background: #fff;
+  border-radius: 13px;
+  box-shadow: 0 2px 18px rgba(40,60,180,0.08);
+  padding: 22px 24px 18px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 8px;
+  position: relative;
+  opacity: 0;
+  transform: scale(.96);
+  animation: cardPop .6s cubic-bezier(.21,.92,.44,1.13) forwards;
+}
+.db-radar-card { animation-delay: .29s; }
+.db-visits-card { animation-delay: .34s; }
+
+.db-radar-card h3,
+.db-visits-card h3 {
+  margin-bottom: 4px;
+  font-size: 1.22em;
+  font-weight: 600;
+}
+.db-radar-card svg {
+  margin: 18px auto 4px auto;
+  display: block;
+}
+.db-visits-card svg {
+  margin: 16px auto 7px auto;
+  display: block;
+}
+
+.db-radar-legend,
+.db-bar-legend {
+  margin-top: 10px;
+  font-size: 1em;
+  display: flex;
+  gap: 16px;
+  padding-left: 5px;
+}
+
+/* Bar chart axis label text */
+.bar-chart text,
+.db-visits-card text {
+  font-family: inherit;
+  fill: #444;
+}
+
+/* Responsive design tweaks */
+@media (max-width:900px) {
+  .dashboard-root {
+    padding: 22px 2vw;
+  }
+  .db-top-row,
+  .db-below-row {
+    flex-direction: column;
+    gap: 18px;
+  }
+  .db-card-group {
+    gap: 15px;
+  }
+}
+
+/* A little more breathing room for mobile cards */
+@media (max-width:550px) {
+  .dashboard-title { font-size: 1.7rem; }
+  .db-card,
+  .db-radar-card,
+  .db-visits-card,
+  .db-small-card {
+    padding: 15px 10px 10px 14px;
+    min-width: 170px;
+  }
+}
+

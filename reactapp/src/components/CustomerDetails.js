@@ -30,9 +30,9 @@ export default function CustomerDetails({ customerId, onBack }) {
   if (loading) return <div>Loading details...</div>;
 
   if (error) return (
-    <div style={{ margin: '2rem' }}>
-      <button onClick={onBack}>Back to List</button>
-      <div style={{ color: 'red', marginTop: '1rem' }}>{error}</div>
+    <div style={{ margin: '2rem', textAlign: "left" }}>
+      <button className="crm-back-btn" onClick={onBack}>← Back to List</button>
+      <div style={{ color: 'red', marginTop: '1.2rem', fontWeight:"500" }}>{error}</div>
     </div>
   );
 
@@ -40,7 +40,7 @@ export default function CustomerDetails({ customerId, onBack }) {
 
   return (
     <div className="customer-details">
-      <button onClick={onBack} style={{ marginBottom: "1.5rem" }}>Back to List</button>
+      <button className="crm-back-btn" onClick={onBack}>Back</button>
       <h2>Customer Details</h2>
       <div>
         <strong>ID:</strong> {customer.id}<br/>
@@ -48,7 +48,6 @@ export default function CustomerDetails({ customerId, onBack }) {
         <strong>Email:</strong> {customer.email}<br/>
         <strong>Phone:</strong> {customer.phoneNumber}<br/>
         <strong>Type:</strong> {customer.customerType}<br/>
-        <strong>Registration Date:</strong> {customer.registrationDate}
       </div>
     </div>
   );

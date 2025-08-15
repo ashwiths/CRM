@@ -1,0 +1,72 @@
+.home-page-centerer, .about-page-centerer {
+  min-height: calc(100vh - 70px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, #e3ecfc 55%, #c6e2ff 100%);
+  font-family: 'Inter', 'Roboto', Arial, sans-serif;
+}
+
+.home-card, .about-card {
+  background: rgba(255, 255, 255, 0.88);
+  border-radius: 18px;
+  padding: 2rem 2rem 1.8rem;
+  max-width: 460px;
+  width: 100%;
+  box-shadow: 0 8px 28px #b5cdfb36;
+  text-align: center;
+  animation: popIn 0.55s cubic-bezier(.46,1.66,.66,1.11);
+}
+
+.home-lock, .about-icon-main {
+  font-size: 2.3rem;
+  margin: 0 auto 1.1rem auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-title, .about-title {
+  font-size: 1.5rem;
+  color: #23427a;
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+}
+
+.home-caption, .about-caption {
+  color: #5881a7;
+  font-size: 1.09rem;
+  margin-bottom: 1.1rem;
+}
+
+.home-feature-list, .about-feature-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 1rem 0 0.6rem;
+}
+
+.home-feature-list li, .about-feature-list li {
+  margin-bottom: 0.66rem;
+  font-size: 1.05rem;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 0.6em;
+}
+
+/* Footer */
+.about-footer {
+  color: #256def;
+  font-size: 1.04rem;
+  margin-top: 1.2rem;
+  font-weight: 500;
+}
+
+/* Pop animation for the card */
+@keyframes popIn {
+  0% { transform: scale(.96) translateY(32px); opacity: 0.09; }
+  70% { transform: scale(1.04) translateY(-7px); }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
