@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { createCustomer } from '../utils/api';
-import { CUSTOMER_TYPES } from '../utils/constants';
 import './CustomerRegistrationForm.css';
+
+const CUSTOMER_TYPES = ["REGULAR", "VIP"]; // Enum values, all caps!
 
 const initialState = {
   firstName: '',
@@ -45,13 +45,18 @@ export default function CustomerRegistrationForm({ onCreate }) {
     setApiError('');
     setSuccess('');
     try {
-      await createCustomer(form);
+      // Direct fetch with proper payload
+      const response = await fetch('http://localhost:3001/api/customers', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form)
+      });
+      if (!response.ok) throw new Error('Failed to register');
       setSuccess('Customer registered!');
       setForm(initialState);
       if (onCreate) onCreate();
     } catch (err) {
-      if (err.status === 409) setApiError('Email already exists');
-      else setApiError('Failed to register');
+      setApiError('Failed to register');
     }
   };
 

@@ -1,4 +1,4 @@
-const API_BASE = 'http://localhost:8080/api';
+const API_BASE = 'http://localhost:3001/api';
 
 export async function fetchCustomers() {
   const response = await fetch(`${API_BASE}/customers`);
@@ -18,7 +18,6 @@ export async function createCustomer(customer) {
 
 export async function fetchCustomerById(id) {
   const response = await fetch(`${API_BASE}/customers/${id}`);
-  console.log(response)
   if (!response.ok) throw new Error('Customer not found');
   return response.json();
 }

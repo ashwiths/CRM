@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { fetchCustomerById } from '../utils/api';
 import './CustomerDetails.css';
 
 export default function CustomerDetails({ customerId, onBack }) {
@@ -15,7 +14,11 @@ export default function CustomerDetails({ customerId, onBack }) {
     }
     setLoading(true);
     setError('');
-    fetchCustomerById(customerId)
+    fetch(`http://localhost:3001/api/customers/${customerId}`)   // ✅ updated to 3000
+      .then(res => {
+        if (!res.ok) throw new Error('Customer not found');
+        return res.json();
+      })
       .then(data => {
         setCustomer(data);
         setError('');

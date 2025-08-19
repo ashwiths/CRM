@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { fetchCustomers } from '../utils/api';
 import './CustomerList.css';
 
 export default function CustomerList({ onSelect }) {
@@ -8,9 +7,13 @@ export default function CustomerList({ onSelect }) {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    fetchCustomers()
-      .then(setCustomers)
-      .catch(() => setError('Failed to fetch'))
+    fetch("http://localhost:3001/api/customers")   // ✅ backend now on 3001
+      .then(response => {
+        if (!response.ok) throw new Error("Failed to fetch");
+        return response.json();
+      })
+      .then(data => setCustomers(data))
+      .catch(error => setError(error.message))
       .finally(() => setLoading(false));
   }, []);
 
@@ -43,7 +46,6 @@ export default function CustomerList({ onSelect }) {
                 <td>{c.phoneNumber}</td>
                 <td>{c.customerType}</td>
                 <td>
-                  {/* Always use c.id, which is guaranteed to be present */}
                   <button onClick={() => onSelect(c.id)}>View Details</button>
                 </td>
               </tr>
