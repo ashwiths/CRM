@@ -6,9 +6,10 @@ import AboutPage from './components/AboutPage';
 import Dashboard from './components/Dashboard';
 import AgentList from './components/AgentList';
 import HomePage from './components/HomePage';
-import TaskPage from './components/TaskPage'; // <--- Import TaskPage here!
+import TaskPage from './components/TaskPage';
+import LoginPage from './components/LoginPage';   // ✅ Added Import
 import './App.css';
-import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react';
+import { SignedIn, SignedOut, UserButton } from '@clerk/clerk-react';
 import { FaMoon, FaSun, FaInfoCircle } from "react-icons/fa";
 
 function App() {
@@ -24,9 +25,10 @@ function App() {
 
   return (
     <div className={`app-container${darkMode ? " dark-mode" : ""}`}>
+      {/* Signed In View */}
       <SignedIn>
         <header className="app-header">
-          {/* Left Group: CRM title + login + dark mode */}
+          {/* Branding + Dark Mode + User */}
           <div className="branding">
             <h1 className="glitter-title">-CRM System-</h1>
             <span className="login-btn">
@@ -43,29 +45,33 @@ function App() {
             </span>
           </div>
 
-          {/* Right: Navigation */}
+          {/* Navigation Tabs */}
           <nav className="nav-tabs">
             <button
               className={currentPage === 'home' ? 'nav-tab active' : 'nav-tab'}
               onClick={() => { setCurrentPage('home'); setSelectedCustomerId(null); }}
             >Home</button>
+
             <button
               className={currentPage === 'dashboard' ? 'nav-tab active' : 'nav-tab'}
               onClick={() => { setCurrentPage('dashboard'); setSelectedCustomerId(null); }}
             >Dashboard</button>
+
             <button
               className={currentPage === 'agents' ? 'nav-tab active' : 'nav-tab'}
               onClick={() => { setCurrentPage('agents'); setSelectedCustomerId(null); }}
             >Agents</button>
-            {/* --- Tasks Button between Agents and Customers --- */}
+
             <button
               className={currentPage === 'tasks' ? 'nav-tab active' : 'nav-tab'}
               onClick={() => { setCurrentPage('tasks'); setSelectedCustomerId(null); }}
             >Tasks</button>
+
             <button
               className={currentPage === 'customers' ? 'nav-tab active' : 'nav-tab'}
               onClick={() => { setCurrentPage('customers'); setSelectedCustomerId(null); }}
             >Customers</button>
+
             <button
               className={currentPage === 'about' ? 'nav-tab active' : 'nav-tab'}
               onClick={() => { setCurrentPage('about'); setSelectedCustomerId(null); }}
@@ -113,22 +119,7 @@ function App() {
 
       {/* Signed Out View */}
       <SignedOut>
-        <div className="login-center-container">
-          <div className="glass-card">
-            <div className="login-img-animated">
-              <img
-                src={process.env.PUBLIC_URL + "/profile.jpg"}
-                alt="Login"
-                className="login-img"
-              />
-            </div>
-            <h1 className="login-title">CRM SYSTEM</h1>
-            <h2>Welcome to CRM</h2>
-            <SignInButton mode="modal">
-              <button className="sign-in-btn">Sign In</button>
-            </SignInButton>
-          </div>
-        </div>
+        <LoginPage />   {/* ✅ Using your custom LoginPage */}
       </SignedOut>
     </div>
   );
