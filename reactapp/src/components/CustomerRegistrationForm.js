@@ -1,101 +1,143 @@
 import React, { useState } from 'react';
+import { customerService } from '../services/customerService';
 import './CustomerRegistrationForm.css';
 
-const CUSTOMER_TYPES = ["REGULAR", "VIP"]; // Enum values, all caps!
-
-const initialState = {
-  firstName: '',
-  lastName: '',
-  email: '',
-  phoneNumber: '',
-  customerType: '',
-};
-
-export default function CustomerRegistrationForm({ onCreate }) {
-  const [form, setForm] = useState(initialState);
-  const [errors, setErrors] = useState({});
-  const [success, setSuccess] = useState('');
-  const [apiError, setApiError] = useState('');
-
-  const validate = () => {
-    const errs = {};
-    if (!form.firstName || form.firstName.length < 2 || form.firstName.length > 50) {
-      errs.firstName = 'First name required (2-50 chars)';
-    }
-    if (!form.lastName || form.lastName.length < 2 || form.lastName.length > 50) {
-      errs.lastName = 'Last name required (2-50 chars)';
-    }
-    if (!form.email || !/\S+@\S+\.\S+/.test(form.email)) {
-      errs.email = 'Valid email is required';
-    }
-    if (!form.customerType) errs.customerType = 'Select customer type';
-    return errs;
-  };
+const CustomerRegistrationForm = () => {
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    customerType: 'REGULAR'
+  });
+  const [message, setMessage] = useState('');
+  const [isError, setIsError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-    setErrors({ ...errors, [e.target.name]: '' });
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const validationErrors = validate();
-    setErrors(validationErrors);
-    if (Object.keys(validationErrors).length) return;
-    setApiError('');
-    setSuccess('');
+    setLoading(true);
+    
     try {
-      // Direct fetch with proper payload
-      const response = await fetch('http://localhost:3001/api/customers', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form)
+      await customerService.createCustomer(formData);
+      setMessage('Customer registered successfully!');
+      setIsError(false);
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        customerType: 'REGULAR'
       });
-      if (!response.ok) throw new Error('Failed to register');
-      setSuccess('Customer registered!');
-      setForm(initialState);
-      if (onCreate) onCreate();
-    } catch (err) {
-      setApiError('Failed to register');
+      
+      setTimeout(() => {
+        window.location.href = '/customers';
+      }, 1500);
+    } catch (error) {
+      setMessage('Error: ' + error.message);
+      setIsError(true);
+    } finally {
+      setLoading(false);
     }
   };
 
+  const handleReset = () => {
+    setFormData({
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      customerType: 'REGULAR'
+    });
+    setMessage('');
+  };
+
   return (
-    <div className="customer-registration-form">
+    <div className="registration-container">
       <h2>Register Customer</h2>
-      {success && <div className="success">{success}</div>}
-      {apiError && <div className="error">{apiError}</div>}
-      <form onSubmit={handleSubmit}>
-        <label>
-          First Name:
-          <input type="text" name="firstName" value={form.firstName} onChange={handleChange} />
-          {errors.firstName && <span className="error">{errors.firstName}</span>}
-        </label>
-        <label>
-          Last Name:
-          <input type="text" name="lastName" value={form.lastName} onChange={handleChange} />
-          {errors.lastName && <span className="error">{errors.lastName}</span>}
-        </label>
-        <label>
-          Email:
-          <input type="email" name="email" value={form.email} onChange={handleChange} />
-          {errors.email && <span className="error">{errors.email}</span>}
-        </label>
-        <label>
-          Phone Number:
-          <input type="text" name="phoneNumber" value={form.phoneNumber} onChange={handleChange} />
-        </label>
-        <label>
-          Customer Type:
-          <select name="customerType" value={form.customerType} onChange={handleChange}>
-            <option value="">Select type</option>
-            {CUSTOMER_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
+      
+      {message && (
+        <div className={isError ? 'error-message' : 'success-message'}>
+          {message}
+        </div>
+      )}
+      
+      <form onSubmit={handleSubmit} className="registration-form">
+        <div className="form-group">
+          <label>First Name:</label>
+          <input
+            type="text"
+            name="firstName"
+            value={formData.firstName}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        
+        <div className="form-group">
+          <label>Last Name:</label>
+          <input
+            type="text"
+            name="lastName"
+            value={formData.lastName}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        
+        <div className="form-group">
+          <label>Email:</label>
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        
+        <div className="form-group">
+          <label>Phone:</label>
+          <input
+            type="tel"
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        
+        <div className="form-group">
+          <label>Customer Type:</label>
+          <select
+            name="customerType"
+            value={formData.customerType}
+            onChange={handleChange}
+          >
+            <option value="REGULAR">Regular</option>
+            <option value="PREMIUM">Premium</option>
+            <option value="VIP">VIP</option>
           </select>
-          {errors.customerType && <span className="error">{errors.customerType}</span>}
-        </label>
-        <button type="submit">Register</button>
-        <button type="button" onClick={() => setForm(initialState)}>Reset</button>
+        </div>
+        
+        <div className="form-buttons">
+          <button type="submit" disabled={loading}>
+            {loading ? 'Registering...' : 'Register'}
+          </button>
+          <button type="button" onClick={handleReset}>
+            Reset
+          </button>
+        </div>
       </form>
     </div>
   );
-}
+};
+
+export default CustomerRegistrationForm;

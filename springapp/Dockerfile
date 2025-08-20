@@ -1,27 +1,29 @@
-# Use Maven to build the project
+# ---------------------------
+# Stage 1: Build the project
+# ---------------------------
 FROM maven:3.9.6-eclipse-temurin-21 AS builder
 
 WORKDIR /app
 
-# Copy the project files
+# Copy project files
 COPY pom.xml .
 COPY src ./src
 
-# Build the project (makes a JAR file)
+# Build JAR (skip tests)
 RUN mvn clean package -DskipTests
 
 # ---------------------------
-# Run the JAR in a small image
+# Stage 2: Run the JAR
 # ---------------------------
 FROM eclipse-temurin:21-jdk
 
 WORKDIR /app
 
-# Copy the JAR file from builder
+# Copy JAR from builder
 COPY --from=builder /app/target/*.jar app.jar
 
-# Open port 8080 for the app
+# Expose app port
 EXPOSE 8080
 
-# Run the JAR file
+# Run Spring Boot app
 ENTRYPOINT ["java", "-jar", "app.jar"]
