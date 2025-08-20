@@ -1,7 +1,6 @@
-// src/components/CustomerList.js
 import React, { useEffect, useState } from 'react';
 import './CustomerList.css';
-import { BASE_URL } from '../config';
+import { BASE_URL } from '../config';  // ✅ Import backend URL
 
 export default function CustomerList({ onSelect }) {
   const [customers, setCustomers] = useState([]);
@@ -9,16 +8,15 @@ export default function CustomerList({ onSelect }) {
   const [error, setError] = useState('');
 
   useEffect(() => {
-  fetch(`${BASE_URL}/api/customers`)
-    .then(response => {
-      if (!response.ok) throw new Error("Failed to fetch");
-      return response.json();
-    })
-    .then(data => setCustomers(data))
-    .catch(error => setError(error.message))
-    .finally(() => setLoading(false));
-}, []);
-
+    fetch(`${BASE_URL}/api/customers`)
+      .then(response => {
+        if (!response.ok) throw new Error("Failed to fetch");
+        return response.json();
+      })
+      .then(data => setCustomers(data))
+      .catch(error => setError(error.message))
+      .finally(() => setLoading(false));
+  }, []);
 
   if (loading) return <div>Loading customers...</div>;
   if (error) return <div>Error: {error}</div>;
