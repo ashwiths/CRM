@@ -2,28 +2,31 @@ import React, { useState, useEffect } from 'react';
 import { customerService } from '../services/customerService';
 import './CustomerList.css';
 
-const CustomerList = () => {
+const CustomerList = ({ onSelect, refreshTrigger }) => {
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
   useEffect(() => {
     fetchCustomers();
-  }, []);
+  }, [refreshTrigger]);
 
   const fetchCustomers = async () => {
     try {
+      setLoading(true);
       const data = await customerService.getAllCustomers();
       setCustomers(data);
-      setLoading(false);
+      setError('');
     } catch (err) {
-      setError(err.message);
+      setError(err.message || 'Failed to fetch customers');
+      console.error('Error fetching customers:', err);
+    } finally {
       setLoading(false);
     }
   };
 
   const handleViewDetails = (customerId) => {
-    window.location.href = `/customers/${customerId}`;
+    onSelect(customerId);
   };
 
   if (loading) return <div className="loading">Loading customers...</div>;
@@ -32,46 +35,60 @@ const CustomerList = () => {
   return (
     <div className="customer-container">
       <div className="customer-header">
-        <h2>Customers</h2>
+        <h2>Customer List</h2>
         <button 
-          className="btn-primary"
-          onClick={() => window.location.href = '/customers/new'}
+          className="btn-refresh"
+          onClick={fetchCustomers}
+          title="Refresh customers"
         >
-          Add New Customer
+          🔄 Refresh
         </button>
       </div>
       
-      <table className="customer-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Type</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {customers.map((customer) => (
-            <tr key={customer.id}>
-              <td>{customer.id}</td>
-              <td>{customer.firstName} {customer.lastName}</td>
-              <td>{customer.email}</td>
-              <td>{customer.phone}</td>
-              <td>{customer.customerType}</td>
-              <td>
-                <button 
-                  className="btn-view"
-                  onClick={() => handleViewDetails(customer.id)}
-                >
-                  View Details
-                </button>
-              </td>
+      <div className="customer-table-container">
+        <table className="customer-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Type</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {customers.map((customer) => (
+              <tr key={customer.id}>
+                <td>{customer.id}</td>
+                <td>{customer.firstName} {customer.lastName}</td>
+                <td>{customer.email}</td>
+                <td>{customer.phone}</td>
+                <td>
+                  <span className={`customer-type ${customer.customerType?.toLowerCase()}`}>
+                    {customer.customerType}
+                  </span>
+                </td>
+                <td>
+                  <button 
+                    className="btn-view"
+                    onClick={() => handleViewDetails(customer.id)}
+                    title="View customer details"
+                  >
+                    👁️ View
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        
+        {customers.length === 0 && (
+          <div className="no-customers">
+            <p>No customers found. Register a new customer to get started.</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

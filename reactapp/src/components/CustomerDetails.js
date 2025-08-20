@@ -1,57 +1,109 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { customerService } from '../services/customerService';
 import './CustomerDetails.css';
 
-export default function CustomerDetails({ customerId, onBack }) {
+const CustomerDetails = ({ customerId, onBack, onAddInteraction }) => {
   const [customer, setCustomer] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
   useEffect(() => {
-    if (!customerId) {
-      setError('Invalid customer ID');
-      setLoading(false);
-      return;
-    }
-    setLoading(true);
-    setError('');
-    fetch(`http://localhost:3001/api/customers/${customerId}`)   // ✅ updated to 3000
-      .then(res => {
-        if (!res.ok) throw new Error('Customer not found');
-        return res.json();
-      })
-      .then(data => {
+    const fetchCustomerDetails = async () => {
+      try {
+        setLoading(true);
+        const data = await customerService.getCustomerById(customerId);
         setCustomer(data);
         setError('');
-      })
-      .catch(() => {
-        setError('Customer not found');
-        setCustomer(null);
-      })
-      .finally(() => setLoading(false));
+      } catch (err) {
+        setError(err.message || 'Failed to fetch customer details');
+        console.error('Error fetching customer details:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCustomerDetails();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [customerId]);
 
-  if (loading) return <div>Loading details...</div>;
-
-  if (error) return (
-    <div style={{ margin: '2rem', textAlign: "left" }}>
-      <button className="crm-back-btn" onClick={onBack}>← Back to List</button>
-      <div style={{ color: 'red', marginTop: '1.2rem', fontWeight:"500" }}>{error}</div>
-    </div>
-  );
-
-  if (!customer) return null;
+  if (loading) return <div className="loading">Loading customer details...</div>;
+  if (error) return <div className="error">Error: {error}</div>;
+  if (!customer) return <div className="error">Customer not found</div>;
 
   return (
     <div className="customer-details">
-      <button className="crm-back-btn" onClick={onBack}>Back</button>
-      <h2>Customer Details</h2>
-      <div>
-        <strong>ID:</strong> {customer.id}<br/>
-        <strong>Name:</strong> {customer.firstName} {customer.lastName}<br/>
-        <strong>Email:</strong> {customer.email}<br/>
-        <strong>Phone:</strong> {customer.phoneNumber}<br/>
-        <strong>Type:</strong> {customer.customerType}<br/>
+      <div className="details-header">
+        <button onClick={onBack} className="btn-back">
+          ← Back to List
+        </button>
+        <h2>Customer Details</h2>
+        <button onClick={onAddInteraction} className="btn-add-interaction">
+          ➕ Add Interaction
+        </button>
+      </div>
+
+      <div className="details-content">
+        <div className="customer-card">
+          <div className="customer-info">
+            <div className="info-section">
+              <h3>Personal Information</h3>
+              <div className="info-grid">
+                <div className="info-item">
+                  <label>ID:</label>
+                  <span>{customer.id}</span>
+                </div>
+                <div className="info-item">
+                  <label>First Name:</label>
+                  <span>{customer.firstName}</span>
+                </div>
+                <div className="info-item">
+                  <label>Last Name:</label>
+                  <span>{customer.lastName}</span>
+                </div>
+                <div className="info-item">
+                  <label>Customer Type:</label>
+                  <span className={`customer-type ${customer.customerType?.toLowerCase()}`}>
+                    {customer.customerType}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div className="info-section">
+              <h3>Contact Information</h3>
+              <div className="info-grid">
+                <div className="info-item">
+                  <label>Email:</label>
+                  <span>{customer.email}</span>
+                </div>
+                <div className="info-item">
+                  <label>Phone:</label>
+                  <span>{customer.phone}</span>
+                </div>
+              </div>
+            </div>
+
+            {customer.createdAt && (
+              <div className="info-section">
+                <h3>Account Information</h3>
+                <div className="info-grid">
+                  <div className="info-item">
+                    <label>Registered:</label>
+                    <span>{new Date(customer.createdAt).toLocaleDateString()}</span>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="interactions-section">
+          <h3>Customer Interactions</h3>
+          <p className="no-interactions">No interactions recorded yet.</p>
+        </div>
       </div>
     </div>
   );
-}
+};
+
+export default CustomerDetails;

@@ -2,8 +2,8 @@ import { API_BASE_URL } from '../config';
 
 const handleResponse = async (response) => {
   if (!response.ok) {
-    const error = await response.text();
-    throw new Error(error || 'Request failed');
+    const errorText = await response.text();
+    throw new Error(errorText || `HTTP error! status: ${response.status}`);
   }
   return response.json();
 };
@@ -53,6 +53,18 @@ export const customerService = {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(customerData)
+    });
+    return handleResponse(response);
+  },
+
+  deleteCustomer: async (id) => {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`${API_BASE_URL}/api/customers/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
     });
     return handleResponse(response);
   }

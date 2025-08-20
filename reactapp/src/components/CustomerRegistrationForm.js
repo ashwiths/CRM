@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { customerService } from '../services/customerService';
 import './CustomerRegistrationForm.css';
 
-const CustomerRegistrationForm = () => {
+const CustomerRegistrationForm = ({ onCreate, onCancel }) => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -29,6 +29,8 @@ const CustomerRegistrationForm = () => {
       await customerService.createCustomer(formData);
       setMessage('Customer registered successfully!');
       setIsError(false);
+      
+      // Reset form
       setFormData({
         firstName: '',
         lastName: '',
@@ -37,11 +39,13 @@ const CustomerRegistrationForm = () => {
         customerType: 'REGULAR'
       });
       
-      setTimeout(() => {
-        window.location.href = '/customers';
-      }, 1500);
+      // Notify parent component to refresh customer list
+      if (onCreate) {
+        onCreate();
+      }
+      
     } catch (error) {
-      setMessage('Error: ' + error.message);
+      setMessage('Error: ' + (error.message || 'Failed to register customer'));
       setIsError(true);
     } finally {
       setLoading(false);
@@ -61,65 +65,72 @@ const CustomerRegistrationForm = () => {
 
   return (
     <div className="registration-container">
-      <h2>Register Customer</h2>
+      <h2>Register New Customer</h2>
       
       {message && (
-        <div className={isError ? 'error-message' : 'success-message'}>
+        <div className={`message ${isError ? 'error' : 'success'}`}>
           {message}
         </div>
       )}
       
       <form onSubmit={handleSubmit} className="registration-form">
-        <div className="form-group">
-          <label>First Name:</label>
-          <input
-            type="text"
-            name="firstName"
-            value={formData.firstName}
-            onChange={handleChange}
-            required
-          />
+        <div className="form-row">
+          <div className="form-group">
+            <label>First Name *</label>
+            <input
+              type="text"
+              name="firstName"
+              value={formData.firstName}
+              onChange={handleChange}
+              required
+              disabled={loading}
+            />
+          </div>
+          
+          <div className="form-group">
+            <label>Last Name *</label>
+            <input
+              type="text"
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleChange}
+              required
+              disabled={loading}
+            />
+          </div>
         </div>
         
         <div className="form-group">
-          <label>Last Name:</label>
-          <input
-            type="text"
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        
-        <div className="form-group">
-          <label>Email:</label>
+          <label>Email Address *</label>
           <input
             type="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
             required
+            disabled={loading}
           />
         </div>
         
         <div className="form-group">
-          <label>Phone:</label>
+          <label>Phone Number *</label>
           <input
             type="tel"
             name="phone"
             value={formData.phone}
             onChange={handleChange}
             required
+            disabled={loading}
           />
         </div>
         
         <div className="form-group">
-          <label>Customer Type:</label>
+          <label>Customer Type *</label>
           <select
             name="customerType"
             value={formData.customerType}
             onChange={handleChange}
+            disabled={loading}
           >
             <option value="REGULAR">Regular</option>
             <option value="PREMIUM">Premium</option>
@@ -128,12 +139,31 @@ const CustomerRegistrationForm = () => {
         </div>
         
         <div className="form-buttons">
-          <button type="submit" disabled={loading}>
-            {loading ? 'Registering...' : 'Register'}
+          <button 
+            type="submit" 
+            disabled={loading}
+            className="btn-primary"
+          >
+            {loading ? 'Registering...' : 'Register Customer'}
           </button>
-          <button type="button" onClick={handleReset}>
+          <button 
+            type="button" 
+            onClick={handleReset}
+            disabled={loading}
+            className="btn-secondary"
+          >
             Reset
           </button>
+          {onCancel && (
+            <button 
+              type="button" 
+              onClick={onCancel}
+              disabled={loading}
+              className="btn-cancel"
+            >
+              Cancel
+            </button>
+          )}
         </div>
       </form>
     </div>

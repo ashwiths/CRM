@@ -77,8 +77,12 @@ function App() {
                     <CustomerRegistrationForm onCreate={() => setRefreshList(!refreshList)} />
                   </div>
                   <div className="crm-right">
-                    <CustomerList key={refreshList} onSelect={setSelectedCustomerId} />
-                  </div>
+  <CustomerList 
+    key={refreshList} 
+    onSelect={setSelectedCustomerId} 
+    refreshTrigger={refreshList}
+  />
+</div>
                 </div>
               ) : (
                 <div className="content">
@@ -97,11 +101,9 @@ function App() {
           </main>
         </div>
       </SignedIn>
-
-      {/* Signed Out View */}
       <SignedOut>
-        <LoginPage />
-      </SignedOut>
+  <LoginPage />
+</SignedOut>
     </div>
   );
 }
